@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 # Get API key from environment variable
 API_KEY = os.getenv("API_KEY")
+PORT = 3000
 
 @app.before_request
 def check_api_key():
@@ -41,7 +42,9 @@ def download_video():
             ydl.download([url])  # Start downloading the video
         return jsonify({'message': 'Download started successfully!'}), 200
     except Exception as e:
+        print(e)
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=PORT)
+# re_aQHs4YEr_FtqBYMfdUxokk7drnCYDpDU5
