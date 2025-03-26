@@ -15,9 +15,11 @@ def home():
 
 @app.before_request
 def check_api_key():
-    key = request.headers.get("X-API-KEY")
-    if key != API_KEY:
-        return jsonify({"error": "Unauthorized"}), 403
+    # Check the route path to apply the API key validation only for /download
+    if request.path == "/download":
+        key = request.headers.get("X-API-KEY")
+        if key != API_KEY:
+            return jsonify({"error": "Unauthorized"}), 403
 
 @app.route('/download', methods=['POST'])
 def download_video():
