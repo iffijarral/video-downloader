@@ -24,11 +24,13 @@ def check_api_key():
 @app.route('/download', methods=['POST'])
 def download_video():
     data = request.get_json()
-
+    app.logger.info(f"Received data: {data}")
     # Extract URL from request body
     url = data.get('url')
     if not url:
         return jsonify({'error': 'URL is required'}), 400
+    
+    app.logger.info(f"Downloading video from URL: {url}")
 
     # Define the output path
     output_path = os.path.join(os.getcwd(), 'downloads', '%(title)s.%(ext)s')
@@ -49,6 +51,7 @@ def download_video():
         return jsonify({'message': 'Download started successfully!'}), 200
     except Exception as e:
         print(e)
+        app.logger.error(f"Error during video download: {e}")
         return jsonify({'error': str(e)}), 500
     
 
